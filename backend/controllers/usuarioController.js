@@ -27,10 +27,7 @@ import generarJWT from '../helpers/generarJWT.js'
 const autenticar = async (req, res) => {
 
     const {email, password} = req.body;
-
-
-
-    const usuario = await Usuario.findOne({email})
+    const usuario = await Usuario.findOne({email});
 
   
     if(!usuario){
@@ -94,18 +91,74 @@ const confirmar = async (req, res) => {
            try {
                
                 usuario.token = generarId();;
-                console.log(usuario)
-    
+                await usuario.save();
+                res.json({msg:'Hemos enviado un mail con las instrucciones'})
             
            } catch (error) {
                 console.log(error);   
            }
     };
 
+    const comprobarToken = async (req, res) => {
+        const {token} = req.params;
+       
+        const tokenValido = await Usuario.findOne({token})
+
+        if(!tokenValido){
+            const error = new Error("El token no Existe");
+            return res.status(404).json({msg:error.message});
+        }else{
+            res.json({msg:'Token Valido y Usuario existe'});
+        }
+
+      
+          /* try {
+               
+                usuario.token = generarId();;
+                await usuario.save();
+                res.json({msg:'Hemos enviado un mail con las instrucciones'})
+            
+           } catch (error) {
+                console.log(error);   
+           }*/
+    };
+
+    const nuevoPassword = async (req, res) => {
+        const {token} = req.params;
+        const {password} = req.body;
+        const usuario = await Usuario.findOne({token})
+        console.log(password); 
+        if(usuario){
+           usuario.password = password;
+           usuario.token = "";
+
+                try {
+                    await usuario.save();
+                        res.json({msg:'Password Modificacdo Correctamente'});
+                } catch (error) {
+                    console.log(error);   
+                }          
+        }else{
+            const error = new Error("Token no Valido");
+            return res.status(404).json({msg:error.message});
+        }
+
+      
+           
+    };
+
+    const perfil = async (req, res) => {
+       const {usuario} = req
+    
+       res.json(usuario)
+    };
 
 export {
     registrar,
     autenticar,
     confirmar,
-    olvidePassword
+    olvidePassword,
+    comprobarToken,
+    nuevoPassword,
+    perfil
 };
