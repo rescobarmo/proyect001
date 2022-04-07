@@ -2,7 +2,8 @@ const obtenerProyectos = async (req, res) => {};
 
 const nuevoProyecto = async (req, res) => {
 
-    console.log("nuevo proycto")
+    console.log(req.body);
+    console.log(req.usuario);
 
 
 };
