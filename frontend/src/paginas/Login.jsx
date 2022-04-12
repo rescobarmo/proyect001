@@ -1,11 +1,13 @@
-import {Link} from 'react-router-dom'
+
+import {useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom'
 import {Formik, Form, Field,ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import Alerta from '../components/Alert'
-import axios from 'axios'
-
+import clienteAxios from '../../config/clienteAxios'
+import AlertaPositiva from '../components/AlertaPositiva'
 const Login = () => {
-
+  const [ alertaPositiva, setAlertaPositiva] = useState({})
   const nuevaCuentaSchema = Yup.object().shape({
     email: Yup.string()
               .min(3,'El Email de muy corto')
@@ -17,17 +19,45 @@ const Login = () => {
               .required('Ingrese PassWord')
   })
 
-  const handleSubmit = (valores) => {
-      //console.log(valores)
-      const respuesta = await axios.get
+  const handleSubmit = async (valores) => {
+    const email = valores.email;
+    const password = valores.password;
+    console.log(email)
+      try {
+        const { data }  = await clienteAxios.post('/Usuarios/login', 
+                                            { 
+                                              email,
+                                              password
+                                            }); 
+        console.log(data.msg);
+        setAlertaPositiva({
+          msg:data.msg,
+          error:false
+        }) 
+        return
+
+      } catch (error) {
+        console.log(error.response.data.msg);
+
+        setAlertaPositiva({
+          msg:error.response.data.msg,
+          error:true
+        })
+        return
+      }
 
   } 
-
+  const {msg} = alertaPositiva
   return (
     <>
         <h1 className="text-sky-600 font-black text-6xl capitalize">Inicia sesion y administra tus  
           <span className="text-slate-700"> proyectos</span>
+        
         </h1>
+       
+
+        { msg && <AlertaPositiva alertaPositiva= {alertaPositiva} />}
+ 
       <Formik
           initialValues={{
           email:'',
