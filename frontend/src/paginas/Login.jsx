@@ -6,8 +6,16 @@ import * as Yup from 'yup'
 import Alerta from '../components/Alert'
 import clienteAxios from '../../config/clienteAxios'
 import AlertaPositiva from '../components/AlertaPositiva'
+import useAuth from '../hooks/useAuth'
+
+
+
+
 const Login = () => {
   const [ alertaPositiva, setAlertaPositiva] = useState({})
+  const {setAuth} = useAuth(); 
+
+
   const nuevaCuentaSchema = Yup.object().shape({
     email: Yup.string()
               .min(3,'El Email de muy corto')
@@ -31,6 +39,7 @@ const Login = () => {
                                             }); 
         setAlertaPositiva({})
         localStorage.setItem('token', data.token)
+        setAuth(data)
         
 
       } catch (error) {

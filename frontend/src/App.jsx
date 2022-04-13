@@ -5,6 +5,7 @@ import Registrar from './paginas/Registrar'
 import OlvidePassword from './paginas/OlvidePassword'
 import NuevoPassword from './paginas/NuevoPassword'
 import ConfirmarCuenta from './paginas/ConfirmarCuenta'
+import {AuthProvider} from './context/AuthProvider'
 
 console.log(import.meta.env.VITE_BACKEND_URL)
 
@@ -12,6 +13,7 @@ function App() {
 
   return (
     <BrowserRouter>
+    <AuthProvider>
       <Routes>
 
         <Route path="/" element={<AuthLayout />} >
@@ -22,6 +24,7 @@ function App() {
           <Route path="Confirmar/:id" element={<ConfirmarCuenta />}/>
         </Route>
       </Routes>
+    </AuthProvider>
     </BrowserRouter>
   )
 }
