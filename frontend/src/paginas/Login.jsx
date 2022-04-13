@@ -22,23 +22,18 @@ const Login = () => {
   const handleSubmit = async (valores) => {
     const email = valores.email;
     const password = valores.password;
-    console.log(email)
+    
       try {
         const { data }  = await clienteAxios.post('/Usuarios/login', 
                                             { 
                                               email,
                                               password
                                             }); 
-        console.log(data.msg);
-        setAlertaPositiva({
-          msg:data.msg,
-          error:false
-        }) 
-        return
+        setAlertaPositiva({})
+        localStorage.setItem('token', data.token)
+        
 
       } catch (error) {
-        console.log(error.response.data.msg);
-
         setAlertaPositiva({
           msg:error.response.data.msg,
           error:true
