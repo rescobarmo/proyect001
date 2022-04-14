@@ -6,7 +6,9 @@ import OlvidePassword from './paginas/OlvidePassword'
 import NuevoPassword from './paginas/NuevoPassword'
 import ConfirmarCuenta from './paginas/ConfirmarCuenta'
 import {AuthProvider} from './context/AuthProvider'
-
+import Proyectos from './paginas/Proyectos'
+import NuevoProyecto from './paginas/NuevoProyecto'
+import RutaProtegida from './layouts/RutaProtegida'
 console.log(import.meta.env.VITE_BACKEND_URL)
 
 function App() {
@@ -23,6 +25,11 @@ function App() {
           <Route path="Olvide-Password/:token" element={<NuevoPassword />}/>
           <Route path="Confirmar/:id" element={<ConfirmarCuenta />}/>
         </Route>
+        <Route path="/proyectos" element={<RutaProtegida />} >
+          <Route index element={<Proyectos />}/>
+          <Route path="crear-proyecto" element={<NuevoProyecto />}/>
+        </Route>
+
       </Routes>
     </AuthProvider>
     </BrowserRouter>

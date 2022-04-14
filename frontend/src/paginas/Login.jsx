@@ -13,8 +13,7 @@ import useAuth from '../hooks/useAuth'
 
 const Login = () => {
   const [ alertaPositiva, setAlertaPositiva] = useState({})
-  const {setAuth} = useAuth(); 
-
+  const { setAuth} = useAuth(); 
 
   const nuevaCuentaSchema = Yup.object().shape({
     email: Yup.string()
