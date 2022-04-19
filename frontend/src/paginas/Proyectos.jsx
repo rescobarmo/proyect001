@@ -1,3 +1,4 @@
+import useProyectos from "../hooks/useProyectos"
 
 const Proyectos = () => {
   return (

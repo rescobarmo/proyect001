@@ -4,7 +4,7 @@ import {Link, useNavigate} from 'react-router-dom'
 import {Formik, Form, Field,ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import Alerta from '../components/Alert'
-import clienteAxios from '../../config/clienteAxios'
+import clienteAxios from '../config/clienteAxios'
 import AlertaPositiva from '../components/AlertaPositiva'
 import useAuth from '../hooks/useAuth'
 

@@ -5,7 +5,7 @@ import axios from 'axios';
 import * as Yup from 'yup'
 import Alerta from '../components/Alert'
 import AlertaPositiva from '../components/AlertaPositiva'
-import clienteAxios from '../../config/clienteAxios'
+import clienteAxios from '../config/clienteAxios'
 
 const Registrar = () => {
    
