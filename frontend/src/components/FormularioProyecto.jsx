@@ -1,19 +1,39 @@
 import { useState } from "react"
+import useProyectos from '../hooks/useProyectos';
+import AlertaPositiva from "./AlertaPositiva";
 
 const FormularioProyecto = () => {
 const [nombre, setNombre] =useState('')
 const [descripcion, setDescripcion] =useState('')
 const [fechaEntrega, setFechaEntrega] =useState('')
-const [cliente, setCliente] =useState('')
-const handleSubmit = e => {
-    e.preventDefault();
-}
+const [clientes, setClientes] =useState('')
+const {mostarAlerta, alerta,submitProyecto} = useProyectos()
 
+const handleSubmit = async e =>  {
+    e.preventDefault();
+
+    
+    if([nombre,descripcion, fechaEntrega,clientes].includes('')){
+        mostarAlerta({
+            msg:'Todos los Campos Son Obligatorios',
+            error:true
+        });
+        return
+    }
+    await submitProyecto({nombre,descripcion,fechaEntrega,clientes})
+    setNombre('')
+    setDescripcion('')
+    setFechaEntrega('')
+    setClientes('')
+
+}
+const {msg} = alerta
 
   return (
     <form className="bg-white py-10 px-5 md:w-1/2 rounded-lg" 
     onSubmit={handleSubmit}
     >
+        {msg && <AlertaPositiva alertaPositiva={alerta}/>}
         <div className="mb-5">
             <label 
                 className="text-gray-700 uppercase font-bold text-sm shadow-sm"
@@ -27,7 +47,7 @@ const handleSubmit = e => {
                 className="border-2 w-full p-2 mt-2 placeholder-gray-400
                 rounded-md"
                 placeholder="Nombre del Proyecto"
-                value=""
+                value={nombre}
                 onChange={e => setNombre(e.target.value) }
                 />
         </div>
@@ -40,11 +60,11 @@ const handleSubmit = e => {
                 </label>
 
                 <textarea 
-                id="nombre"
+                id="descripcion"
                 className="border-2 w-full p-2 mt-2 placeholder-gray-400
                 rounded-md"
                 placeholder="Descripcion del Proyecto"
-                value={nombre}
+                value={descripcion}
                 onChange={e => setDescripcion(e.target.value) }
                 />
         </div>
@@ -69,18 +89,18 @@ const handleSubmit = e => {
         <div className="mb-5">
             <label 
                 className="text-gray-700 uppercase font-bold text-sm shadow-sm"
-                htmlFor= "cliente">
+                htmlFor= "clientes">
                     Cliente
                 </label>
 
                 <input 
-                id="cliente"
+                id="clientes"
                 type="text"
                 className="border-2 w-full p-2 mt-2 placeholder-gray-400
                 rounded-md"
                 placeholder="Nombre del Cliente"
-                value={cliente}
-                onChange={e => setCliente(e.target.value) }
+                value={clientes}
+                onChange={e => setClientes(e.target.value) }
                 />
         </div>
 
